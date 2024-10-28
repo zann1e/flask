@@ -8,47 +8,221 @@
     <meta name="robots" content="index,follow">
     <title>WHOIS Lookup for {{ domain_name }}</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        table, th, td {
-            border: 1px solid #ccc;
-        }
-        th, td {
-            padding: 12px;
-            text-align: left;
-        }
-        th {
-            background-color: #f0f0f0;
-        }
-        .error {
-            color: red;
-        }
+        /* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f5f7fa;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Typography */
+h1 {
+    color: #2c3e50;
+    font-size: 2.2rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+h2 {
+    color: #34495e;
+    font-size: 1.5rem;
+    margin: 2rem 0 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #eee;
+}
+
+/* Form styles */
+.form-container {
+    margin: 2rem 0;
+    text-align: center;
+}
+
+form {
+    display: flex;
+    gap: 1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+input[type="text"] {
+    flex: 1;
+    padding: 0.8rem 1rem;
+    font-size: 1rem;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+button {
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #3498db;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    table-layout: fixed; /* Added for better column width control */
+}
+
+th, td {
+    padding: 1rem;
+    text-align: left;
+    border: 1px solid #eee;
+    overflow-wrap: break-word; /* Ensures words break if they're too long */
+    word-wrap: break-word; /* Legacy support */
+    -webkit-hyphens: auto; /* Enable hyphenation */
+    -moz-hyphens: auto;
+    hyphens: auto;
+    min-width: 0; /* Ensures the cell can shrink below content width */
+}
+
+/* Make the label column smaller than the content column */
+th:first-child,
+td:first-child {
+    width: 30%;
+}
+
+th:last-child,
+td:last-child {
+    width: 70%;
+}
+
+th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* DNS Records list styles */
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    padding: 0.3rem 0;
+    overflow-wrap: break-word; /* Added for list items */
+    word-wrap: break-word;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    hyphens: auto;
+}
+
+/* Error message */
+.error {
+    color: #e74c3c;
+    padding: 1rem;
+    background-color: #fdf2f1;
+    border-left: 4px solid #e74c3c;
+    margin: 1rem 0;
+}
+
+/* Footer */
+footer {
+    margin-top: 3rem;
+    padding-top: 1rem;
+    text-align: center;
+    color: #7f8c8d;
+    border-top: 1px solid #eee;
+    font-size: 0.9rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        padding: 1rem;
+    }
+
+    form {
+        flex-direction: column;
+    }
+
+    button {
+        width: 100%;
+    }
+
+    th, td {
+        padding: 0.75rem;
+    }
+
+    /* Adjust column widths for mobile */
+    th:first-child,
+    td:first-child {
+        width: 40%;
+    }
+
+    th:last-child,
+    td:last-child {
+        width: 60%;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    h2 {
+        font-size: 1.3rem;
+    }
+}
+
     </style>
 </head>
 <body>
     <div class="container">
         <h1>WHOIS Lookup for {{ domain_name }}</h1>
+
+        <!-- Form to Enter Domain -->
+        <div class="form-container">
+            <form action="/get" method="post">
+                <input type="text" name="domain_name" placeholder="Enter domain (e.g., example.com)">
+                <button type="submit">Lookup</button>
+            </form>
+        </div>
 
         {% if error %}
             <p class="error">{{ error }}</p>
@@ -157,6 +331,10 @@
                 </tbody>
             </table>
         {% endif %}
+
+        <footer>
+            © 2024 WHOIS Lookup App. All rights reserved.
+        </footer>
     </div>
 </body>
 </html>

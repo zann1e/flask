@@ -129,8 +129,15 @@ def index():
         return redirect(url_for('get_whois', domain_name=domain_name))
     return render_template('index.html')
 
-@app.route('/whois/<domain_name>', methods=['GET'])
+@app.route('/get', methods=['GET', 'POST'])
+def get():
+    if request.method == 'POST':
+        domain_name = request.form['domain_name']
+        return redirect(url_for('get_whois', domain_name=domain_name))
+
+@app.route('/whois/<domain_name>', methods=['GET', 'POST'])
 def get_whois(domain_name):
+    domain_name = domain_name.lower()
     # Check if data is already in MongoDB
     domain_data = whois_collection.find_one({'domain_name': domain_name})
 
@@ -156,6 +163,17 @@ def get_whois(domain_name):
                            meta_info=domain_data['meta_info'],
                            http_headers=domain_data['http_headers'],
                            dns_records=domain_data['dns_records'])
+
+@app.route('/update/<domain_name>', methods=['POST'])
+def update_domain_record(domain_name):
+    try:
+        # Fetch and save updated domain data
+        updated_data = fetch_and_save_domain_data(domain_name)
+
+        # Redirect to the WHOIS page for the updated domain
+        return redirect(url_for('get_whois', domain_name=domain_name))
+    except Exception as e:
+        return f"Error updating domain record: {e}", 500
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
