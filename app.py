@@ -6,12 +6,19 @@ import requests
 from bs4 import BeautifulSoup
 from pymongo import MongoClient
 import dns.resolver
+import os
+from flask_caching import Cache
+from flask_sslify import SSLify
 
 # Set up Flask app
 app = Flask(__name__)
+sslify = SSLify(app)
 
-# MongoDB connection (replace <username>, <password>, and <cluster_url> with your actual MongoDB credentials)
-mongo_client = MongoClient("mongodb+srv://zann:zQJEMLhJLFBLGZnB@cluster0.0fmqx9y.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+# Configure caching
+cache = Cache(app, config={'CACHE_TYPE': 'simple'})
+
+# MongoDB connection using environment variable
+mongo_client = MongoClient(os.getenv("MONGODB_URI"))
 db = mongo_client['whois_db']  # Database
 whois_collection = db['whois_data']  # Collection
 
@@ -67,7 +74,7 @@ def get_website_data(domain_name):
             'meta_keywords': "Error fetching meta keywords"
         }, {"Error": str(e)}
 
-
+@cache.memoize(timeout=300)
 def fetch_and_save_domain_data(domain_name):
     domain_info_dict = {}
     ip_info_dict = {}
