@@ -3,58 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="WHOIS Lookup for domains">
-    <meta name="keywords" content="WHOIS lookup, domain WHOIS, IP WHOIS, registration info">
-    <meta name="robots" content="index,follow">
-    <title>WHOIS Lookup Tool</title>
+    <title>WHOIS Lookup - Domain and IP Information Finder</title>
+    <meta name="description" content="Free WHOIS lookup tool. Get comprehensive domain and IP information instantly. Check domain registration, DNS records, and network details.">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
+        :root {
+            --bg-primary: #f4f6f9;
+            --text-primary: #2c3e50;
+            --accent-color: #3498db;
+            --card-bg: white;
+            --border-color: #e0e4e8;
         }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
         .container {
             max-width: 800px;
             margin: 0 auto;
-            background: white;
-            padding: 20px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .search-wrapper {
+            display: flex;
+            margin: 2rem auto;
+            max-width: 600px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
         }
-        h1 {
-            font-size: 24px;
-            margin-bottom: 20px;
+
+        .search-input {
+            flex-grow: 1;
+            padding: 1rem;
+            border: none;
+            font-size: 1rem;
+            background: white;
         }
-        form {
-            margin-bottom: 20px;
-        }
-        input[type="text"] {
-            width: calc(100% - 22px);
-            padding: 10px;
-            margin-right: 5px;
-            font-size: 16px;
-        }
-        input[type="submit"] {
-            padding: 10px;
-            background-color: #4CAF50;
+
+        .search-button {
+            background: var(--accent-color);
             color: white;
             border: none;
-            font-size: 16px;
+            padding: 0 1.5rem;
             cursor: pointer;
+            transition: background 0.3s ease;
         }
-        input[type="submit"]:hover {
-            background-color: #45a049;
+
+        .search-button:hover {
+            background: #2980b9;
+        }
+
+        .features {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 2rem;
+        }
+
+        .feature {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            width: 30%;
+        }
+
+        .feature i {
+            color: var(--accent-color);
+            font-size: 2rem;
+            margin-bottom: 1rem;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>WHOIS Lookup Tool</h1>
-        <form method="POST">
-            <input type="text" name="domain_name" placeholder="Enter domain name (e.g., example.com)" required>
-            <input type="submit" value="Lookup">
+        <div class="logo">
+            <i class="fas fa-globe"></i> WHOIS Lookup
+        </div>
+
+        <form class="search-wrapper" action="/get" method="post">
+            <input type="text" name="domain_name" class="search-input"
+                   placeholder="Enter domain or IP address" required>
+            <button type="submit" class="search-button">
+                <i class="fas fa-search"></i>
+            </button>
         </form>
+
+        <div class="features">
+            <div class="feature">
+                <i class="fas fa-info-circle"></i>
+                <h3>Domain Info</h3>
+                <p>Get detailed domain registration data</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-network-wired"></i>
+                <h3>IP Details</h3>
+                <p>Comprehensive IP address information</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-code"></i>
+                <h3>DNS Records</h3>
+                <p>Retrieve DNS configuration details</p>
+            </div>
+        </div>
     </div>
 </body>
 </html>

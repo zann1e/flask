@@ -1,340 +1,309 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" prefix="og: http://ogp.me/ns#">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="WHOIS Lookup for {{ domain_name }} - View WHOIS information, registration data, and IP details.">
-    <meta name="keywords" content="WHOIS lookup, {{ domain_name }}, domain WHOIS, IP WHOIS, registration info">
-    <meta name="robots" content="index,follow">
-    <title>WHOIS Lookup for {{ domain_name }}</title>
+
+    <title>WHOIS Lookup: {{ domain_name }} - Comprehensive Domain Insights</title>
+    <meta name="description" content="Detailed WHOIS information and network insights for {{ domain_name }}. Discover domain registration details, IP address, DNS records, and website metadata.">
+    <meta name="keywords" content="WHOIS, {{ domain_name }}, domain lookup, IP information, domain registration, DNS records, network tools">
+
+    <!-- Open Graph Protocol -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="WHOIS Lookup: {{ domain_name }}">
+    <meta property="og:description" content="Comprehensive domain information for {{ domain_name }}">
+    <meta property="og:url" content="{{ request.url }}">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "WHOIS Lookup Tool",
+        "description": "Comprehensive domain and IP information lookup service"
+    }
+    </script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* Reset and base styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+        :root {
+            --bg-primary: #f4f6f9;
+            --text-primary: #2c3e50;
+            --accent-color: #3498db;
+            --card-bg: white;
+            --border-color: #e0e4e8;
+        }
 
-body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    line-height: 1.6;
-    color: #333;
-    background-color: #f5f7fa;
-    padding: 20px;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    background-color: #fff;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
 
-/* Typography */
-h1 {
-    color: #2c3e50;
-    font-size: 2.2rem;
-    margin-bottom: 1.5rem;
-    text-align: center;
-}
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
 
-h2 {
-    color: #34495e;
-    font-size: 1.5rem;
-    margin: 2rem 0 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid #eee;
-}
+        .search-wrapper {
+            display: flex;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
 
-/* Form styles */
-.form-container {
-    margin: 2rem 0;
-    text-align: center;
-}
+        .search-input {
+            flex-grow: 1;
+            padding: 1rem;
+            border: none;
+            font-size: 1rem;
+            background: white;
+        }
 
-form {
-    display: flex;
-    gap: 1rem;
-    max-width: 600px;
-    margin: 0 auto;
-}
+        .search-button {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 0 1.5rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
 
-input[type="text"] {
-    flex: 1;
-    padding: 0.8rem 1rem;
-    font-size: 1rem;
-    border: 2px solid #ddd;
-    border-radius: 4px;
-    transition: border-color 0.3s ease;
-}
+        .search-button:hover {
+            background: #2980b9;
+        }
 
-input[type="text"]:focus {
-    outline: none;
-    border-color: #3498db;
-}
+        .info-card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+        }
 
-button {
-    padding: 0.8rem 2rem;
-    font-size: 1rem;
-    color: #fff;
-    background-color: #3498db;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
 
-button:hover {
-    background-color: #2980b9;
-}
+        .card-header i {
+            margin-right: 10px;
+            color: var(--accent-color);
+        }
 
-/* Table styles */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 1rem 0;
-    background-color: #fff;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    table-layout: fixed; /* Added for better column width control */
-}
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
 
-th, td {
-    padding: 1rem;
-    text-align: left;
-    border: 1px solid #eee;
-    overflow-wrap: break-word; /* Ensures words break if they're too long */
-    word-wrap: break-word; /* Legacy support */
-    -webkit-hyphens: auto; /* Enable hyphenation */
-    -moz-hyphens: auto;
-    hyphens: auto;
-    min-width: 0; /* Ensures the cell can shrink below content width */
-}
+        .data-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+        }
 
-/* Make the label column smaller than the content column */
-th:first-child,
-td:first-child {
-    width: 30%;
-}
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
 
-th:last-child,
-td:last-child {
-    width: 70%;
-}
+        .data-table .label {
+            font-weight: 600;
+            width: 30%;
+        }
 
-th {
-    background-color: #f8f9fa;
-    font-weight: 600;
-    color: #2c3e50;
-}
+        .error-message {
+            background: #ffebee;
+            color: #d32f2f;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
 
-tr:hover {
-    background-color: #f8f9fa;
-}
+        .recent-domains {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
 
-/* DNS Records list styles */
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
+        .recent-domains-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
 
-li {
-    padding: 0.3rem 0;
-    overflow-wrap: break-word; /* Added for list items */
-    word-wrap: break-word;
-    -webkit-hyphens: auto;
-    -moz-hyphens: auto;
-    hyphens: auto;
-}
+        .recent-domain-tag {
+            background: var(--bg-primary);
+            padding: 0.3rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
 
-/* Error message */
-.error {
-    color: #e74c3c;
-    padding: 1rem;
-    background-color: #fdf2f1;
-    border-left: 4px solid #e74c3c;
-    margin: 1rem 0;
-}
+        .recent-domain-tag:hover {
+            background: var(--accent-color);
+            color: white;
+        }
 
-/* Footer */
-footer {
-    margin-top: 3rem;
-    padding-top: 1rem;
-    text-align: center;
-    color: #7f8c8d;
-    border-top: 1px solid #eee;
-    font-size: 0.9rem;
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-    body {
-        padding: 10px;
-    }
-
-    .container {
-        padding: 1rem;
-    }
-
-    form {
-        flex-direction: column;
-    }
-
-    button {
-        width: 100%;
-    }
-
-    th, td {
-        padding: 0.75rem;
-    }
-
-    /* Adjust column widths for mobile */
-    th:first-child,
-    td:first-child {
-        width: 40%;
-    }
-
-    th:last-child,
-    td:last-child {
-        width: 60%;
-    }
-
-    h1 {
-        font-size: 1.8rem;
-    }
-
-    h2 {
-        font-size: 1.3rem;
-    }
-}
-
+        @media (max-width: 768px) {
+            .search-wrapper {
+                flex-direction: column;
+            }
+            .search-input, .search-button {
+                width: 100%;
+            }
+        }
     </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/recent_domains')
+                .then(response => response.json())
+                .then(domains => {
+                    const recentDomainsList = document.getElementById('recent-domains-list');
+                    domains.forEach(domain => {
+                        const domainTag = document.createElement('a');
+                        domainTag.href = `/whois/${domain}`;
+                        domainTag.classList.add('recent-domain-tag');
+                        domainTag.textContent = domain;
+                        recentDomainsList.appendChild(domainTag);
+                    });
+                });
+        });
+    </script>
 </head>
 <body>
-    <div class="container">
-        <h1>WHOIS Lookup for {{ domain_name }}</h1>
-
-        <!-- Form to Enter Domain -->
-        <div class="form-container">
-            <form action="/get" method="post">
-                <input type="text" name="domain_name" placeholder="Enter domain (e.g., example.com)">
-                <button type="submit">Lookup</button>
-            </form>
-        </div>
+    <div class="app-container">
+        <form class="search-wrapper" action="/get" method="post">
+            <input type="text" name="domain_name" class="search-input"
+                   placeholder="Enter domain or IP address" required>
+            <button type="submit" class="search-button">
+                <i class="fas fa-search"></i>
+            </button>
+        </form>
 
         {% if error %}
-            <p class="error">{{ error }}</p>
+            <div class="error-message">
+                <i class="fas fa-exclamation-triangle"></i> {{ error }}
+            </div>
         {% else %}
-            <h2>Domain WHOIS Information</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Field</th>
-                        <th>Information</th>
-                    </tr>
-                </thead>
-                <tbody>
+            <div class="info-card">
+                <div class="card-header">
+                    <i class="fas fa-globe"></i>
+                    <h2>Domain Information</h2>
+                </div>
+                <table class="data-table">
                     {% for key, value in domain_info.items() %}
                         <tr>
-                            <td>{{ key }}</td>
+                            <td class="label">{{ key }}</td>
                             <td>{{ value }}</td>
                         </tr>
                     {% endfor %}
-                </tbody>
-            </table>
+                </table>
+            </div>
 
-            <h2>Resolved IP Address: {{ ip_address }}</h2>
-
-            <h2>IP WHOIS Information</h2>
-            <table>
-                <thead>
+            <div class="info-card">
+                <div class="card-header">
+                    <i class="fas fa-network-wired"></i>
+                    <h2>IP Information</h2>
+                </div>
+                <table class="data-table">
                     <tr>
-                        <th>Field</th>
-                        <th>Information</th>
+                        <td class="label">IP Address</td>
+                        <td>{{ ip_address }}</td>
                     </tr>
-                </thead>
-                <tbody>
                     {% for key, value in ip_info.items() %}
                         <tr>
-                            <td>{{ key }}</td>
+                            <td class="label">{{ key }}</td>
                             <td>{{ value }}</td>
                         </tr>
                     {% endfor %}
-                </tbody>
-            </table>
+                </table>
+            </div>
 
-            <h2>Website Meta Information</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Field</th>
-                        <th>Information</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Title</td>
-                        <td>{{ meta_info.title }}</td>
-                    </tr>
-                    <tr>
-                        <td>Meta Description</td>
-                        <td>{{ meta_info.meta_description }}</td>
-                    </tr>
-                    <tr>
-                        <td>Meta Keywords</td>
-                        <td>{{ meta_info.meta_keywords }}</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <h2>HTTP Headers</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Header</th>
-                        <th>Value</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for key, value in http_headers.items() %}
-                        <tr>
-                            <td>{{ key }}</td>
-                            <td>{{ value }}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-
-            <h2>DNS Records</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Record Type</th>
-                        <th>Values</th>
-                    </tr>
-                </thead>
-                <tbody>
+            <div class="info-card">
+                <div class="card-header">
+                    <i class="fas fa-code"></i>
+                    <h2>DNS Records</h2>
+                </div>
+                <table class="data-table">
                     {% for record_type, records in dns_records.items() %}
                         <tr>
-                            <td>{{ record_type }}</td>
+                            <td class="label">{{ record_type }}</td>
                             <td>
-                                <ul>
-                                    {% for record in records %}
-                                        <li>{{ record }}</li>
-                                    {% endfor %}
-                                </ul>
+                                {% for record in records %}
+                                    <div>{{ record }}</div>
+                                {% endfor %}
                             </td>
                         </tr>
                     {% endfor %}
-                </tbody>
-            </table>
-        {% endif %}
+                </table>
+            </div>
 
-        <footer>
-            © 2024 WHOIS Lookup App. All rights reserved.
-        </footer>
+            <div class="info-card recent-domains">
+                <div class="card-header">
+                    <i class="fas fa-history"></i>
+                    <h2>Recently Looked Up Domains</h2>
+                </div>
+               <div id="recent-domains-list" class="recent-domains-list">
+                           </div>
+            </div>
+    <!-- SEO Text Block -->
+            <div class="seo-text-block" style="display:none;">
+                <h1>WHOIS Lookup for {{ domain_name }}</h1>
+                <p>
+                    Comprehensive domain information for {{ domain_name }}. This detailed lookup provides insights into domain ownership, registration details, IP address, and network configuration.
+                </p>
+
+                <h2>Domain Details for {{ domain_name }}</h2>
+                <p>
+                    Discover critical information about {{ domain_name }}:
+                    - Domain registration date
+                    - Registrar information
+                    - Domain expiration details
+                    - IP address and geolocation
+                    - DNS configuration
+                </p>
+
+                <h3>Network Insights for {{ domain_name }}</h3>
+                <p>
+                    Our advanced WHOIS lookup tool reveals comprehensive network information for {{ domain_name }}, helping you understand its digital infrastructure, hosting environment, and internet presence.
+                </p>
+
+                <h4>Why Check WHOIS Information?</h4>
+                <p>
+                    Investigating WHOIS data for {{ domain_name }} can help:
+                    - Verify domain ownership
+                    - Assess domain age and history
+                    - Understand network configuration
+                    - Identify potential security concerns
+                </p>
+            </div>
+        {% endif %}
     </div>
+
+    <script>
+        // Enhance SEO text visibility
+        document.addEventListener('DOMContentLoaded', () => {
+            const seoTextBlock = document.querySelector('.seo-text-block');
+            if (seoTextBlock) {
+                seoTextBlock.style.display = 'block';
+            }
+        });
+    </script>
 </body>
 </html>
