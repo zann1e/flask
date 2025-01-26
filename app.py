@@ -1,6 +1,5 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, jsonify
-from flask_caching import Cache
 from pymongo import MongoClient
 import whois
 from ipwhois import IPWhois
@@ -9,17 +8,12 @@ import requests
 from bs4 import BeautifulSoup
 import dns.resolver
 from datetime import datetime
-
-# Flask and Cache Configuration
-config = {
-    "DEBUG": True,
-    "CACHE_TYPE": "SimpleCache",
-    "CACHE_DEFAULT_TIMEOUT": 300
-}
+from flask import Response
+from xml.etree.ElementTree import Element, SubElement, tostring
+from xml.dom import minidom
 
 app = Flask(__name__)
-app.config.from_mapping(config)
-cache = Cache(app)
+
 
 # MongoDB Connection
 mongo_client = MongoClient(os.getenv("MONGODB_URI", "mongodb://localhost:27017/"))
@@ -82,7 +76,6 @@ def get_website_data(domain_name):
         }, {"Error": str(e)}
 
 
-@cache.memoize(timeout=300)
 def fetch_and_save_domain_data(domain_name):
     domain_info_dict = {}
     ip_info_dict = {}
@@ -149,7 +142,6 @@ def get():
 
 
 @app.route('/whois/<domain_name>')
-@cache.cached(timeout=50)
 def get_whois(domain_name):
     domain_name = domain_name.lower()
 
@@ -180,6 +172,39 @@ def recent_domains():
     recent = list(whois_collection.find().sort('timestamp', -1).limit(10))
     return jsonify([domain['domain_name'] for domain in recent])
 
+# Add this route to your existing Flask app
+@app.route('/sitemap.xml', methods=['GET'])
+def sitemap():
+    try:
+        # Fetch all domain names from MongoDB
+        domains = whois_collection.find({}, {'domain_name': 1, 'timestamp': 1, '_id': 0})
+
+        # Create the root XML element
+        urlset = Element('urlset')
+        urlset.set('xmlns', 'http://www.sitemaps.org/schemas/sitemap/0.9')
+
+        # Get the current domain (e.g., http://example.com)
+        base_url = request.host_url.rstrip('/')  # Removes trailing slash
+
+        # Add each domain's WHOIS page to the sitemap
+        for domain in domains:
+            url = SubElement(urlset, 'url')
+            loc = SubElement(url, 'loc')
+            loc.text = f"{base_url}/whois/{domain['domain_name']}"
+            lastmod = SubElement(url, 'lastmod')
+            lastmod.text = domain['timestamp'].strftime('%Y-%m-%d')  # Use the stored timestamp
+
+        # Convert the XML tree to a string
+        xml_str = tostring(urlset, encoding='utf-8', method='xml')
+        # Pretty-print the XML
+        xml_pretty_str = minidom.parseString(xml_str).toprettyxml(indent="  ")
+
+        # Return the XML response with the correct content type
+        return Response(xml_pretty_str, mimetype='application/xml')
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=80, debug=True)

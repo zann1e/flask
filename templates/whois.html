@@ -24,7 +24,6 @@
     }
     </script>
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
             --bg-primary: #f4f6f9;
@@ -192,7 +191,7 @@
             <input type="text" name="domain_name" class="search-input"
                    placeholder="Enter domain or IP address" required>
             <button type="submit" class="search-button">
-                <i class="fas fa-search"></i>
+                <i class="fas fa-search">Search</i>
             </button>
         </form>
 
@@ -248,6 +247,23 @@
                                 {% for record in records %}
                                     <div>{{ record }}</div>
                                 {% endfor %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+
+            <div class="info-card">
+                <div class="card-header">
+                    <i class="fas fa-heading"></i>
+                    <h2>HTTP Headers</h2>
+                </div>
+                <table class="data-table">
+                    {% for type, header in http_headers.items() %}
+                        <tr>
+                            <td class="label">{{ type }}</td>
+                            <td>
+                               <div>{{ header }}</div>
                             </td>
                         </tr>
                     {% endfor %}
