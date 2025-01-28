@@ -6,14 +6,6 @@
     <title>{{ query }}</title>
     <meta name="description" content="{{ query }} - search results">
     <style>
-        :root {
-            --bg-primary: #f4f6f9;
-            --text-primary: #2c3e50;
-            --accent-color: #3498db;
-            --card-bg: white;
-            --border-color: #e0e4e8;
-        }
-
         * {
             margin: 0;
             padding: 0;
@@ -21,43 +13,105 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.6;
+            font-family: Roboto, sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
-        .container {
-            max-width: 800px;
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding-bottom: 100px;
+        }
+
+        .logo img {
+            width: 200px;
+            margin-bottom: 2rem;
+        }
+
+        .search-container {
+            flex-direction: column;
+            min-width: 584px;
             margin: 0 auto;
-            padding: 2rem;
         }
 
-        .logo {
-            font-size: 2.5rem;
-            color: var(--accent-color);
-            margin-bottom: 1rem;
+        .search-wrapper {
+            position: relative;
+            margin: 0 20px;
         }
 
-        .feature i {
-            color: var(--accent-color);
-            font-size: 2rem;
-            margin-bottom: 1rem;
+        /* Footer styles */
+        footer {
+            background: #f2f2f2;
+            border-top: 1px solid #e4e4e4;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .footer-content {
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            color: #70757a;
+            font-size: 14px;
+        }
+
+        .footer-links a {
+            color: #70757a;
+            text-decoration: none;
+            margin-left: 15px;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
         }
     </style>
-     <script async src="https://cse.google.com/cse.js?cx=a2791de6edf134ecd"></script>
-
-
-
-
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N4WTMJD');</script>
+<!-- End Google Tag Manager -->
+    <script async src="https://cse.google.com/cse.js?cx=a2791de6edf134ecd"></script>
 </head>
 <body>
-    <div class="container">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N4WTMJD"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+    <div class="main-content">
         <div class="logo">
-            ATIOTH
+            <svg xmlns="http://www.w3.org/2000/svg" width="200" height="60" viewBox="0 0 200 60" fill="none">
+  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle"
+        font-family="Roboto, sans-serif" font-size="48" font-weight="bold" fill="#4285f4">
+    ATIOTH
+  </text>
+</svg>
         </div>
-<div class="gcse-search"></div>
-
+        <div class="search-container">
+            <div class="search-wrapper">
+                <div class="gcse-search"></div>
+            </div>
+        </div>
     </div>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-location">
+                Somewhere on Earth :)
+            </div>
+            <div class="footer-links">
+                <a href="#">About</a>
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Settings</a>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
