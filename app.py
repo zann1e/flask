@@ -130,9 +130,10 @@ def fetch_and_save_domain_data(domain_name):
         return {'error': str(e)}
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET'])
 def index():
-    return render_template('index.html')
+    query = request.args.get('q')
+    return render_template('index.html', query=query)
 
 
 @app.route('/get', methods=['POST'])
@@ -190,7 +191,7 @@ def sitemap():
         for domain in domains:
             url = SubElement(urlset, 'url')
             loc = SubElement(url, 'loc')
-            loc.text = f"{base_url}/whois/{domain['domain_name']}"
+            loc.text = f"{base_url}/?q={domain['domain_name']}"
             lastmod = SubElement(url, 'lastmod')
             lastmod.text = domain['timestamp'].strftime('%Y-%m-%d')  # Use the stored timestamp
 

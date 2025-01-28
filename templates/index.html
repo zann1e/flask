@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WHOIS Lookup - Domain and IP Information Finder</title>
-    <meta name="description" content="Free WHOIS lookup tool. Get comprehensive domain and IP information instantly. Check domain registration, DNS records, and network details.">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <title>{{ query }}</title>
+    <meta name="description" content="{{ query }} - search results">
     <style>
         :root {
             --bg-primary: #f4f6f9;
@@ -32,7 +31,6 @@
             max-width: 800px;
             margin: 0 auto;
             padding: 2rem;
-            text-align: center;
         }
 
         .logo {
@@ -41,88 +39,25 @@
             margin-bottom: 1rem;
         }
 
-        .search-wrapper {
-            display: flex;
-            margin: 2rem auto;
-            max-width: 600px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .search-input {
-            flex-grow: 1;
-            padding: 1rem;
-            border: none;
-            font-size: 1rem;
-            background: white;
-        }
-
-        .search-button {
-            background: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 0 1.5rem;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        .search-button:hover {
-            background: #2980b9;
-        }
-
-        .features {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 2rem;
-        }
-
-        .feature {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            width: 30%;
-        }
-
         .feature i {
             color: var(--accent-color);
             font-size: 2rem;
             margin-bottom: 1rem;
         }
     </style>
+     <script async src="https://cse.google.com/cse.js?cx=a2791de6edf134ecd"></script>
+
+
+
+
 </head>
 <body>
     <div class="container">
         <div class="logo">
-            <i class="fas fa-globe"></i> WHOIS Lookup
+            ATIOTH
         </div>
+<div class="gcse-search"></div>
 
-        <form class="search-wrapper" action="/get" method="post">
-            <input type="text" name="domain_name" class="search-input"
-                   placeholder="Enter domain or IP address" required>
-            <button type="submit" class="search-button">
-                <i class="fas fa-search"></i>
-            </button>
-        </form>
-
-        <div class="features">
-            <div class="feature">
-                <i class="fas fa-info-circle"></i>
-                <h3>Domain Info</h3>
-                <p>Get detailed domain registration data</p>
-            </div>
-            <div class="feature">
-                <i class="fas fa-network-wired"></i>
-                <h3>IP Details</h3>
-                <p>Comprehensive IP address information</p>
-            </div>
-            <div class="feature">
-                <i class="fas fa-code"></i>
-                <h3>DNS Records</h3>
-                <p>Retrieve DNS configuration details</p>
-            </div>
-        </div>
     </div>
 </body>
 </html>
