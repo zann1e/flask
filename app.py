@@ -11,12 +11,15 @@ from datetime import datetime
 from flask import Response
 from xml.etree.ElementTree import Element, SubElement, tostring
 from xml.dom import minidom
+from dotenv import load_dotenv
+
 
 app = Flask(__name__)
 
 
 # MongoDB Connection
-mongo_client = MongoClient(os.getenv("MONGODB_URI", "mongodb://localhost:27017/"))
+load_dotenv()
+mongo_client = MongoClient(os.getenv("MONGODB_URI"))
 db = mongo_client['whois_db']
 whois_collection = db['whois_data']
 
