@@ -12,6 +12,11 @@ from flask import Response
 from xml.etree.ElementTree import Element, SubElement, tostring
 from xml.dom import minidom
 from dotenv import load_dotenv
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+import base64
+from io import BytesIO
+from PIL import Image
 
 
 app = Flask(__name__)
@@ -23,6 +28,55 @@ mongo_client = MongoClient(os.getenv("MONGODB_URI"))
 db = mongo_client['whois_db']
 whois_collection = db['whois_data']
 
+
+# Add this new function to your existing functions
+def capture_website_screenshot(domain_name):
+    """
+    Capture a screenshot of a website using Selenium WebDriver.
+
+    Args:
+        domain_name (str): Domain name to capture screenshot for
+
+    Returns:
+        dict: Screenshot data or error information
+    """
+    try:
+        # Configure Chrome options for headless browsing
+        chrome_options = Options()
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--no-sandbox")
+        chrome_options.add_argument("--disable-dev-shm-usage")
+
+        # Initialize WebDriver
+        driver = webdriver.Chrome(options=chrome_options)
+
+        # Construct full URL
+        url = f"http://{domain_name}"
+
+        try:
+            # Navigate to website
+            driver.get(url)
+            driver.set_window_size(1920, 1080)  # Set a standard screenshot size
+
+            # Capture screenshot
+            screenshot = driver.get_screenshot_as_png()
+
+            # Convert to base64 for easy storage and display
+            screenshot_base64 = base64.b64encode(screenshot).decode('utf-8')
+
+            return {
+                'screenshot_base64': screenshot_base64,
+                'screenshot_size': f"{len(screenshot)} bytes"
+            }
+
+        except Exception as nav_error:
+            return {'error': f"Navigation error: {str(nav_error)}"}
+
+        finally:
+            driver.quit()
+
+    except Exception as setup_error:
+        return {'error': f"WebDriver setup error: {str(setup_error)}"}
 
 def is_ip_address(domain_name):
     try:
@@ -108,6 +162,9 @@ def fetch_and_save_domain_data(domain_name):
         ipwhois = IPWhois(ip_address)
         ip_info_dict = ipwhois.lookup_rdap()
 
+        # Capture screenshot
+        screenshot_data = capture_website_screenshot(domain_name)
+
         # Combine all data
         domain_data = {
             'domain_name': domain_name,
@@ -117,6 +174,7 @@ def fetch_and_save_domain_data(domain_name):
             'meta_info': meta_info,
             'http_headers': http_headers,
             'dns_records': dns_records,
+            'screenshot': screenshot_data,  # Add screenshot data
             'timestamp': datetime.utcnow()
         }
 
@@ -168,8 +226,8 @@ def get_whois(domain_name):
                            ip_info=domain_data.get('ip_info', {}),
                            meta_info=domain_data.get('meta_info', {}),
                            http_headers=domain_data.get('http_headers', {}),
-                           dns_records=domain_data.get('dns_records', {}))
-
+                           dns_records=domain_data.get('dns_records', {}),
+                           screenshot_data=domain_data.get('screenshot', {}))
 
 @app.route('/recent_domains')
 def recent_domains():

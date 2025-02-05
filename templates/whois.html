@@ -256,6 +256,9 @@
                     <i class="fas fa-globe"></i>
                     <h2>Website Meta Information</h2>
                 </div>
+                                        {% if screenshot_data and 'screenshot_base64' in screenshot_data %}
+    <img src="data:image/png;base64,{{ screenshot_data.screenshot_base64 }}" alt="Website Screenshot">
+{% endif %}
               <table class="data-table">
                 <thead>
                     <tr>
