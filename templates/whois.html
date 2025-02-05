@@ -26,11 +26,15 @@
 
     <style>
         :root {
-            --bg-primary: #f4f6f9;
+            --bg-primary: #f8f9fa;
             --text-primary: #2c3e50;
             --accent-color: #3498db;
+            --accent-hover: #2980b9;
             --card-bg: white;
             --border-color: #e0e4e8;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --radius: 12px;
+            --transition: all 0.3s ease;
         }
 
         * {
@@ -44,20 +48,29 @@
             background-color: var(--bg-primary);
             color: var(--text-primary);
             line-height: 1.6;
+            padding: 1rem;
         }
 
         .app-container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
         }
 
         .search-wrapper {
             display: flex;
             margin-bottom: 2rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            border-radius: 8px;
+            box-shadow: var(--shadow);
+            border-radius: var(--radius);
             overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .search-wrapper:focus-within {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
 
         .search-input {
@@ -66,6 +79,7 @@
             border: none;
             font-size: 1rem;
             background: white;
+            outline: none;
         }
 
         .search-button {
@@ -74,19 +88,26 @@
             border: none;
             padding: 0 1.5rem;
             cursor: pointer;
-            transition: background 0.3s ease;
+            transition: var(--transition);
+            font-size: 1rem;
         }
 
         .search-button:hover {
-            background: #2980b9;
+            background: var(--accent-hover);
         }
 
         .info-card {
             background: var(--card-bg);
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
             margin-bottom: 1.5rem;
             padding: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .info-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
 
         .card-header {
@@ -100,6 +121,11 @@
         .card-header i {
             margin-right: 10px;
             color: var(--accent-color);
+        }
+
+        .card-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
         }
 
         .data-table {
@@ -125,14 +151,15 @@
             background: #ffebee;
             color: #d32f2f;
             padding: 1rem;
-            border-radius: 8px;
+            border-radius: var(--radius);
             text-align: center;
+            margin-bottom: 1.5rem;
         }
 
         .recent-domains {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
             padding: 1.5rem;
             margin-top: 1.5rem;
         }
@@ -145,11 +172,11 @@
 
         .recent-domain-tag {
             background: var(--bg-primary);
-            padding: 0.3rem 0.75rem;
+            padding: 0.5rem 1rem;
             border-radius: 20px;
             font-size: 0.9rem;
             cursor: pointer;
-            transition: background 0.3s ease;
+            transition: var(--transition);
             text-decoration: none;
             color: var(--text-primary);
         }
@@ -159,12 +186,36 @@
             color: white;
         }
 
+        .seo-text-block {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .seo-text-block h1,
+        .seo-text-block h2,
+        .seo-text-block h3,
+        .seo-text-block h4 {
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .seo-text-block p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
         @media (max-width: 768px) {
             .search-wrapper {
                 flex-direction: column;
             }
             .search-input, .search-button {
                 width: 100%;
+            }
+            .card-header h2 {
+                font-size: 1.25rem;
             }
         }
     </style>
@@ -200,6 +251,35 @@
                 <i class="fas fa-exclamation-triangle"></i> {{ error }}
             </div>
         {% else %}
+                                    <div class="info-card">
+                <div class="card-header">
+                    <i class="fas fa-globe"></i>
+                    <h2>Website Meta Information</h2>
+                </div>
+              <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Information</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Title</td>
+                        <td>{{ meta_info.title }}</td>
+                    </tr>
+                    <tr>
+                        <td>Meta Description</td>
+                        <td>{{ meta_info.meta_description }}</td>
+                    </tr>
+                    <tr>
+                        <td>Meta Keywords</td>
+                        <td>{{ meta_info.meta_keywords }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+
             <div class="info-card">
                 <div class="card-header">
                     <i class="fas fa-globe"></i>
@@ -278,7 +358,8 @@
                <div id="recent-domains-list" class="recent-domains-list">
                            </div>
             </div>
-    <!-- SEO Text Block -->
+
+            <!-- SEO Text Block -->
             <div class="seo-text-block" style="display:none;">
                 <h1>WHOIS Lookup for {{ domain_name }}</h1>
                 <p>
