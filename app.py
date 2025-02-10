@@ -130,7 +130,7 @@ def fetch_and_save_domain_data(domain_name):
 
 @app.route('/', methods=['GET'])
 def index():
-    user_ip = request.remote_addr  # Get the client IP address
+    user_ip = request.headers.get('X-Forwarded-For', request.remote_addr)  # Get the client IP address
     return render_template('index.html', user_ip=user_ip)
 
 
