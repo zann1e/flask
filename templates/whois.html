@@ -2,9 +2,10 @@
 <html lang="en" prefix="og: http://ogp.me/ns#">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="/static/favicon.png">
 
-    <title>WHOIS Lookup: {{ domain_name }} - Comprehensive Domain Insights</title>
+    <title>{{ domain_name }} - Comprehensive Domain Insights</title>
     <meta name="description" content="Detailed WHOIS information and network insights for {{ domain_name }}. Discover domain registration details, IP address, DNS records, and website metadata.">
     <meta name="keywords" content="WHOIS, {{ domain_name }}, domain lookup, IP information, domain registration, DNS records, network tools">
 
@@ -14,25 +15,14 @@
     <meta property="og:description" content="Comprehensive domain information for {{ domain_name }}">
     <meta property="og:url" content="{{ request.url }}">
 
-    <!-- Structured Data -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "WHOIS Lookup Tool",
-        "description": "Comprehensive domain and IP information lookup service"
-    }
-    </script>
-
     <style>
         :root {
-            --bg-primary: #f8f9fa;
+            --bg-primary: #f2f2f2;
             --text-primary: #2c3e50;
             --accent-color: #3498db;
             --accent-hover: #2980b9;
-            --card-bg: white;
+            --card-bg: #ffffff;
             --border-color: #e0e4e8;
-            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             --radius: 12px;
             --transition: all 0.3s ease;
         }
@@ -48,35 +38,26 @@
             background-color: var(--bg-primary);
             color: var(--text-primary);
             line-height: 1.6;
-            padding: 1rem;
         }
 
         .app-container {
-            max-width: 1200px;
             margin: 0 auto;
-            padding: 2rem;
-            background: var(--card-bg);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
+            padding: 0.5rem;
+            background: var(--bg-primary);
         }
 
         .search-wrapper {
             display: flex;
             margin-bottom: 2rem;
-            box-shadow: var(--shadow);
-            border-radius: var(--radius);
             overflow: hidden;
             transition: var(--transition);
         }
 
-        .search-wrapper:focus-within {
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-
         .search-input {
+            border-color: #d9d9d9;
+            border-style: solid;
             flex-grow: 1;
             padding: 1rem;
-            border: none;
             font-size: 1rem;
             background: white;
             outline: none;
@@ -97,9 +78,8 @@
         }
 
         .info-card {
+            border: 1px solid #d9d9d9;
             background: var(--card-bg);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
             margin-bottom: 1.5rem;
             padding: 1.5rem;
             transition: var(--transition);
@@ -151,47 +131,8 @@
             background: #ffebee;
             color: #d32f2f;
             padding: 1rem;
-            border-radius: var(--radius);
             text-align: center;
             margin-bottom: 1.5rem;
-        }
-
-        .recent-domains {
-            background: var(--card-bg);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            padding: 1.5rem;
-            margin-top: 1.5rem;
-        }
-
-        .recent-domains-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .recent-domain-tag {
-            background: var(--bg-primary);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: var(--transition);
-            text-decoration: none;
-            color: var(--text-primary);
-        }
-
-        .recent-domain-tag:hover {
-            background: var(--accent-color);
-            color: white;
-        }
-
-        .seo-text-block {
-            margin-top: 2rem;
-            padding: 1.5rem;
-            background: var(--card-bg);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
         }
 
         .seo-text-block h1,
@@ -208,41 +149,29 @@
         }
 
         @media (max-width: 768px) {
-            .search-wrapper {
-                flex-direction: column;
-            }
-            .search-input, .search-button {
-                width: 100%;
-            }
             .card-header h2 {
                 font-size: 1.25rem;
             }
         }
     </style>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            fetch('/recent_domains')
-                .then(response => response.json())
-                .then(domains => {
-                    const recentDomainsList = document.getElementById('recent-domains-list');
-                    domains.forEach(domain => {
-                        const domainTag = document.createElement('a');
-                        domainTag.href = `/whois/${domain}`;
-                        domainTag.classList.add('recent-domain-tag');
-                        domainTag.textContent = domain;
-                        recentDomainsList.appendChild(domainTag);
-                    });
-                });
-        });
-    </script>
+        <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-N4WTMJD');</script>
+    <!-- End Google Tag Manager -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2325580012296666" crossorigin="anonymous"></script>
 </head>
 <body>
+    <svg aria-hidden="true" style="display: none">
+<symbol id="icon-search" viewBox="0 0 53.46 50.56"><path d="M53.46 47.6 33.1 29.1a18.31 18.31 0 1 0-2.69 2.95l20.35 18.5 2.7-2.94zm-35.1-15a14.26 14.26 0 1 1 14.26-14.3 14.27 14.27 0 0 1-14.26 14.27v.04z"></path></symbol>    </svg>
     <div class="app-container">
         <form class="search-wrapper" action="/get" method="post">
             <input type="text" name="domain_name" class="search-input"
                    placeholder="Enter domain or IP address" required>
             <button type="submit" class="search-button">
-                <i class="fas fa-search">Search</i>
+              <svg class="radar-icon icon-search ep eq" width="20" height="20" aria-hidden="true"><use href="#icon-search"></use></svg>
             </button>
         </form>
 
@@ -251,37 +180,33 @@
                 <i class="fas fa-exclamation-triangle"></i> {{ error }}
             </div>
         {% else %}
-                                    <div class="info-card">
+
+        {% if meta_info %}
+            <div class="info-card">
                 <div class="card-header">
                     <i class="fas fa-globe"></i>
-                    <h2>Website Meta Information</h2>
+                    <h2>Website Information</h2>
                 </div>
-                                        {% if screenshot_data and 'screenshot_base64' in screenshot_data %}
-    <img src="data:image/png;base64,{{ screenshot_data.screenshot_base64 }}" alt="Website Screenshot">
-{% endif %}
               <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Field</th>
-                        <th>Information</th>
-                    </tr>
-                </thead>
                 <tbody>
                     <tr>
                         <td>Title</td>
                         <td>{{ meta_info.title }}</td>
                     </tr>
                     <tr>
-                        <td>Meta Description</td>
+                        <td>Description</td>
                         <td>{{ meta_info.meta_description }}</td>
                     </tr>
+                    {% if meta_info.meta_keywords %}
                     <tr>
-                        <td>Meta Keywords</td>
+                        <td>Keywords</td>
                         <td>{{ meta_info.meta_keywords }}</td>
                     </tr>
+                     {% endif %}
                 </tbody>
             </table>
             </div>
+        {% endif %}
 
             <div class="info-card">
                 <div class="card-header">
@@ -352,58 +277,7 @@
                     {% endfor %}
                 </table>
             </div>
-
-            <div class="info-card recent-domains">
-                <div class="card-header">
-                    <i class="fas fa-history"></i>
-                    <h2>Recently Looked Up Domains</h2>
-                </div>
-               <div id="recent-domains-list" class="recent-domains-list">
-                           </div>
-            </div>
-
-            <!-- SEO Text Block -->
-            <div class="seo-text-block" style="display:none;">
-                <h1>WHOIS Lookup for {{ domain_name }}</h1>
-                <p>
-                    Comprehensive domain information for {{ domain_name }}. This detailed lookup provides insights into domain ownership, registration details, IP address, and network configuration.
-                </p>
-
-                <h2>Domain Details for {{ domain_name }}</h2>
-                <p>
-                    Discover critical information about {{ domain_name }}:
-                    - Domain registration date
-                    - Registrar information
-                    - Domain expiration details
-                    - IP address and geolocation
-                    - DNS configuration
-                </p>
-
-                <h3>Network Insights for {{ domain_name }}</h3>
-                <p>
-                    Our advanced WHOIS lookup tool reveals comprehensive network information for {{ domain_name }}, helping you understand its digital infrastructure, hosting environment, and internet presence.
-                </p>
-
-                <h4>Why Check WHOIS Information?</h4>
-                <p>
-                    Investigating WHOIS data for {{ domain_name }} can help:
-                    - Verify domain ownership
-                    - Assess domain age and history
-                    - Understand network configuration
-                    - Identify potential security concerns
-                </p>
-            </div>
         {% endif %}
     </div>
-
-    <script>
-        // Enhance SEO text visibility
-        document.addEventListener('DOMContentLoaded', () => {
-            const seoTextBlock = document.querySelector('.seo-text-block');
-            if (seoTextBlock) {
-                seoTextBlock.style.display = 'block';
-            }
-        });
-    </script>
 </body>
 </html>
