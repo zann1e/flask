@@ -199,6 +199,9 @@ def sitemap():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@app.route('/ads.txt', methods=['GET'])
+def ads_txt():
+    return Response('google.com, pub-2325580012296666, DIRECT, f08c47fec0942fa0', mimetype='text/plain')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)
