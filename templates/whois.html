@@ -34,7 +34,8 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            word-break: break-word;
+            font-family: system-ui,sans-serif;
             background-color: var(--bg-primary);
             color: var(--text-primary);
             line-height: 1.6;
@@ -182,36 +183,26 @@
         {% else %}
 
         {% if meta_info %}
+            <h1>Domain Insights</h1>
             <div class="info-card">
                 <div class="card-header">
                     <i class="fas fa-globe"></i>
-                    <h2>Domain Information</h2>
+                    <h2>{{ domain_name }}</h2>
                 </div>
-              <table class="data-table">
-                <tbody>
-                    <tr>
-                        <td>Title</td>
-                        <td>{{ meta_info.title }}</td>
-                    </tr>
-                    <tr>
-                        <td>Description</td>
-                        <td>{{ meta_info.meta_description }}</td>
-                    </tr>
+                    <strong>Title</strong>
+                    <p>{{ meta_info.title }}</p>
+                    <strong>Description</strong>
+                    <p>{{ meta_info.meta_description }}</p>
                     {% if meta_info.meta_keywords %}
-                    <tr>
-                        <td>Keywords</td>
-                        <td>{{ meta_info.meta_keywords }}</td>
-                    </tr>
-                     {% endif %}
-                </tbody>
-            </table>
+                        <p>{{ meta_info.meta_keywords }}</p>
+                    {% endif %}
             </div>
         {% endif %}
 
             <div class="info-card">
                 <div class="card-header">
                     <i class="fas fa-globe"></i>
-                    <h2>Domain Information</h2>
+                    <h3>Whois</h3>
                 </div>
                 <table class="data-table">
                     {% for key, value in domain_info.items() %}
