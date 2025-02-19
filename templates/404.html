@@ -5,15 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="/static/favicon.png">
 
-    <title>{{ domain_name }} - Comprehensive Domain Insights</title>
-    <meta name="description" content="Detailed WHOIS information and network insights for {{ domain_name }}. Discover domain registration details, IP address, DNS records, and website metadata.">
-    <meta name="keywords" content="WHOIS, {{ domain_name }}, domain lookup, IP information, domain registration, DNS records, network tools">
+    <title>Not Found - Please try again</title>
 
-    <!-- Open Graph Protocol -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="WHOIS Lookup: {{ domain_name }}">
-    <meta property="og:description" content="Comprehensive domain information for {{ domain_name }}">
-    <meta property="og:url" content="{{ request.url }}">
 
     <style>
         :root {
@@ -191,104 +184,14 @@
 <symbol id="icon-search" viewBox="0 0 53.46 50.56"><path d="M53.46 47.6 33.1 29.1a18.31 18.31 0 1 0-2.69 2.95l20.35 18.5 2.7-2.94zm-35.1-15a14.26 14.26 0 1 1 14.26-14.3 14.27 14.27 0 0 1-14.26 14.27v.04z"></path></symbol>    </svg>
     <div class="app-container">
                 <form class="search-wrapper" action="/get" method="post">
-            <input  autocomplete="off" type="text" name="domain_name" class="search-input"
-                   placeholder="Enter domain or IP address" required>
-            <button type="submit" class="search-button" aria-label="Search">
+                        <input autocomplete="off" type="text" name="domain_name" class="search-input" placeholder="Enter domain or IP address" required>
+                    <button type="submit" class="search-button" aria-label="Search">
               <svg class="radar-icon icon-search ep eq" width="20" height="20" aria-hidden="true"><use href="#icon-search"></use></svg>
             </button>
         </form>
-        {% if error %}
-            <div class="error-message">
-                <i class="fas fa-exclamation-triangle"></i> {{ error }}
-            </div>
-        {% else %}
-            <div class="info-card">
-                <div class="card-header">
-                      <h1>{{ domain_name }}</h1>
-                </div>
-            {% if meta_info %}
-                    <strong>What its about?</strong>
-                    <p>{{ meta_info.title }}</p>
-                    <strong>In their own words</strong>
-                    <p>{{ meta_info.meta_description }}</p>
-                    {% if meta_info.meta_keywords %}
-                        <p>{{ meta_info.meta_keywords }}</p>
-                    {% endif %}
-                  {% endif %}
-            <a href="http://{{ domain_name }}" target="_blank" rel="nofollow" class="button">Visit {{ domain_name }}</a>
-            </div>
 
-
-            <div class="info-card">
-                <div class="card-header">
-                    <i class="fas fa-globe"></i>
-                    <h3 id="whois">Whois</h3>
-                </div>
-                <table class="data-table">
-                    {% for key, value in domain_info.items() %}
-                        <tr>
-                            <td class="label">{{ key }}</td>
-                            <td>{{ value }}</td>
-                        </tr>
-                    {% endfor %}
-                </table>
-            </div>
-
-            <div class="info-card">
-                <div class="card-header">
-                    <i class="fas fa-network-wired"></i>
-                    <h2>IP Information</h2>
-                </div>
-                <table class="data-table">
-                    <tr>
-                        <td class="label">IP Address</td>
-                        <td>{{ ip_address }}</td>
-                    </tr>
-                    {% for key, value in ip_info.items() %}
-                        <tr>
-                            <td class="label">{{ key }}</td>
-                            <td>{{ value }}</td>
-                        </tr>
-                    {% endfor %}
-                </table>
-            </div>
-
-            <div class="info-card">
-                <div class="card-header">
-                    <i class="fas fa-code"></i>
-                    <h2>DNS Records</h2>
-                </div>
-                <table class="data-table">
-                    {% for record_type, records in dns_records.items() %}
-                        <tr>
-                            <td class="label">{{ record_type }}</td>
-                            <td>
-                                {% for record in records %}
-                                    <div>{{ record }}</div>
-                                {% endfor %}
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </table>
-            </div>
-
-            <div class="info-card">
-                <div class="card-header">
-                    <i class="fas fa-heading"></i>
-                    <h2>HTTP Headers</h2>
-                </div>
-                <table class="data-table">
-                    {% for type, header in http_headers.items() %}
-                        <tr>
-                            <td class="label">{{ type }}</td>
-                            <td>
-                               <div>{{ header }}</div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </table>
-            </div>
-        {% endif %}
+        <h1>Something went wrong. Please try different search.</h1>
     </div>
+
 </body>
 </html>

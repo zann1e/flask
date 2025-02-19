@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request, redirect, url_for, jsonify, abort
 from pymongo import MongoClient
 import whois
 from ipwhois import IPWhois
@@ -7,7 +7,7 @@ import socket
 import requests
 from bs4 import BeautifulSoup
 import dns.resolver
-from datetime import datetime
+from datetime import datetime, timezone
 from flask import Response
 from xml.etree.ElementTree import Element, SubElement, tostring
 from xml.dom import minidom
@@ -112,7 +112,7 @@ def fetch_and_save_domain_data(domain_name):
             'meta_info': meta_info,
             'http_headers': http_headers,
             'dns_records': dns_records,
-            'timestamp': datetime.utcnow()
+            'timestamp': datetime.now(timezone.utc)
         }
 
         # Store data in MongoDB
@@ -152,9 +152,7 @@ def get_whois(domain_name):
         domain_data = fetch_and_save_domain_data(domain_name)
 
     if 'error' in domain_data:
-        return render_template('whois.html',
-                               domain_name=domain_name,
-                               error=domain_data['error'])
+        abort(404)
 
     return render_template('whois.html',
                            domain_name=domain_name,
@@ -202,6 +200,10 @@ def sitemap():
 @app.route('/ads.txt', methods=['GET'])
 def ads_txt():
     return Response('google.com, pub-2325580012296666, DIRECT, f08c47fec0942fa0', mimetype='text/plain')
+
+@app.errorhandler(404)
+def not_found(error):
+    return render_template('404.html'), 404
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)
