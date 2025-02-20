@@ -201,6 +201,17 @@ def sitemap():
 def ads_txt():
     return Response('google.com, pub-2325580012296666, DIRECT, f08c47fec0942fa0', mimetype='text/plain')
 
+@app.route('/robots.txt', methods=['GET'])
+def robots_txt():
+    base_url = request.host_url.rstrip('/')
+    sitemap_url = f"{base_url}/sitemap.xml"
+
+    robots_content = f"""User-agent: *
+Allow: /
+
+Sitemap: {sitemap_url}"""
+    return Response(robots_content, mimetype='text/plain')
+
 @app.errorhandler(404)
 def not_found(error):
     return render_template('404.html'), 404

@@ -14,6 +14,7 @@
     <meta property="og:title" content="WHOIS Lookup: {{ domain_name }}">
     <meta property="og:description" content="Comprehensive domain information for {{ domain_name }}">
     <meta property="og:url" content="{{ request.url }}">
+    <link rel="canonical" href="{{ request.url }}" />
 
     <style>
         :root {
@@ -190,9 +191,8 @@
     <svg aria-hidden="true" style="display: none">
 <symbol id="icon-search" viewBox="0 0 53.46 50.56"><path d="M53.46 47.6 33.1 29.1a18.31 18.31 0 1 0-2.69 2.95l20.35 18.5 2.7-2.94zm-35.1-15a14.26 14.26 0 1 1 14.26-14.3 14.27 14.27 0 0 1-14.26 14.27v.04z"></path></symbol>    </svg>
     <div class="app-container">
-                <form class="search-wrapper" action="/get" method="post">
-            <input  autocomplete="off" type="text" name="domain_name" class="search-input"
-                   placeholder="Enter domain or IP address" required>
+        <form class="search-wrapper" action="/get" method="post">
+            <input  autocomplete="off" type="text" name="domain_name" class="search-input" placeholder="Enter domain or IP address" required>
             <button type="submit" class="search-button" aria-label="Search">
               <svg class="radar-icon icon-search ep eq" width="20" height="20" aria-hidden="true"><use href="#icon-search"></use></svg>
             </button>
