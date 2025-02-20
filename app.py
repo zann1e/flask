@@ -209,6 +209,7 @@ def robots_txt():
     robots_content = f"""User-agent: *
 Allow: /
 
+Sitemap: https://atioth.com/static/top50000.txt
 Sitemap: {sitemap_url}"""
     return Response(robots_content, mimetype='text/plain')
 
