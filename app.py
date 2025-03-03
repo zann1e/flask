@@ -14,7 +14,7 @@ from xml.dom import minidom
 from dotenv import load_dotenv
 
 app = Flask(__name__)
-
+app.config['SERVER_NAME'] = os.getenv('SERVER_NAME')
 
 # MongoDB Connection
 load_dotenv()
@@ -140,8 +140,8 @@ def get():
     return redirect(url_for('get_whois', domain_name=domain_name))
 
 
-@app.route('/domain/<domain_name>')
-def get_whois(domain_name):
+@app.route('/', subdomain='<domain_name>')
+def subdomain(domain_name):
     domain_name = domain_name.lower()
 
     # Check if data is in MongoDB
