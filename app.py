@@ -222,4 +222,4 @@ def not_found(error):
     return render_template('404.html'), 404
 
 if __name__ == '__main__':
-    app.run(host=server_name, port=80, debug=True)
+    app.run(host='0.0.0.0', port=80, debug=True)
