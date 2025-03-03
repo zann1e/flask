@@ -140,6 +140,9 @@ def get():
     domain_name = request.form['domain_name'].lower().strip()
     return redirect(url_for('get_whois', domain_name=domain_name))
 
+@app.route('/test', subdomain='<domain_name>')
+def test_subdomain(domain_name):
+    return f"Subdomain: {domain_name}"
 
 @app.route('/', subdomain='<domain_name>')
 def subdomain(domain_name):
