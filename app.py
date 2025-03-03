@@ -14,7 +14,8 @@ from xml.dom import minidom
 from dotenv import load_dotenv
 
 app = Flask(__name__)
-app.config['SERVER_NAME'] = os.getenv('SERVER_NAME')
+server_name = os.getenv('SERVER_NAME')
+app.config['SERVER_NAME'] = server_name
 
 # MongoDB Connection
 load_dotenv()
@@ -218,4 +219,4 @@ def not_found(error):
     return render_template('404.html'), 404
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=80, debug=True)
+    app.run(host=server_name, port=80, debug=True)
